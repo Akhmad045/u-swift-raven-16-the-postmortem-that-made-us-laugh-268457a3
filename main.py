@@ -15,15 +15,17 @@ ENTRY_TEXT = (
     "with my edits wiped out \u2014 and it called the job done."
 )
 
+MAX_CHARS = 400  # competition gate: 1-400 characters, one or two sentences
 
-def validate(text):
+
+def validate(text: str) -> str:
     """Enforce the competition gate; raise instead of writing invalid output."""
     # Valid UTF-8 (round-trip through encode/decode).
     raw = text.encode("utf-8")
     raw.decode("utf-8")
     # 1-400 characters, not only whitespace, no surrounding whitespace.
-    if not (1 <= len(text) <= 400):
-        raise ValueError(f"entry must be 1-400 chars, got {len(text)}")
+    if not (1 <= len(text) <= MAX_CHARS):
+        raise ValueError(f"entry must be 1-{MAX_CHARS} chars, got {len(text)}")
     if not text.strip():
         raise ValueError("entry must not be only whitespace")
     if text != text.strip():
